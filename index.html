@@ -6,7 +6,6 @@
   <title>هوسكرايب · المتجر</title>
   <meta name="description" content="متجر هوسكرايب — اعرض منتجك وتواصل مع المشترين." />
   <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://hoscribe.netlify.app/brand.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="هوسكرايب · المتجر" />
   <meta property="og:description" content="متجر هوسكرايب — اعرض منتجك وتواصل مع المشترين." />
@@ -64,207 +63,263 @@
 
     /* ===== Boot loader ===== */
     .loader{
-      position:fixed;
-      inset:0;
-      z-index:60;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--bg);
-      transition:opacity .35s ease;
+      position:fixed;inset:0;z-index:60;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--bg);transition:opacity .35s ease;
     }
     .loader.hide{opacity:0;pointer-events:none}
     .spinner{
-      width:34px;height:34px;
-      border:2.5px solid var(--border);
-      border-top-color:var(--gold);
-      border-radius:50%;
+      width:34px;height:34px;border:2.5px solid var(--border);
+      border-top-color:var(--gold);border-radius:50%;
       animation:spin .8s linear infinite;
     }
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* ===== Top bar ===== */
     .top-bar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-      padding-bottom:1rem;
-      border-bottom:1px solid var(--border);
-      margin-bottom:3rem;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);
+      margin-bottom:2.4rem;
     }
 
     .brand-link{
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      font-size:.82rem;
-      font-weight:600;
-      color:var(--text-secondary);
-      text-decoration:none;
-      padding:.45rem .9rem;
-      border-radius:40px;
-      border:1px solid transparent;
-      transition:var(--transition);
+      display:inline-flex;align-items:center;gap:.55rem;
+      font-size:.82rem;font-weight:600;color:var(--text-secondary);
+      text-decoration:none;padding:.45rem .9rem;border-radius:40px;
+      border:1px solid transparent;transition:var(--transition);
     }
     .brand-link:hover{
-      color:var(--text-primary);
-      background:var(--surface);
-      border-color:var(--border);
-      box-shadow:var(--shadow);
+      color:var(--text-primary);background:var(--surface);
+      border-color:var(--border);box-shadow:var(--shadow);
     }
     .brand-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:.7rem;
-    }
+    .top-actions{display:flex;align-items:center;gap:.7rem}
 
-    .top-meta{
-      font-size:.72rem;
-      font-weight:400;
-      color:var(--text-tertiary);
-      letter-spacing:.02em;
+    .top-meta{font-size:.72rem;font-weight:400;color:var(--text-tertiary);letter-spacing:.02em}
+
+    /* ===== Add product button (top) ===== */
+    .btn-add-top{
+      display:inline-flex;align-items:center;gap:.4rem;
+      font-family:inherit;font-size:.78rem;font-weight:600;
+      padding:.55rem 1.05rem;
+      background:linear-gradient(180deg,#c9a34a,#b8953a);
+      color:#fff;text-decoration:none;border-radius:40px;
+      transition:var(--transition);
+      box-shadow:0 4px 12px rgba(184,149,58,.22);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .btn-add-top:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(184,149,58,.3)}
+    .btn-add-top:active{transform:translateY(0)}
+    .btn-add-top svg{
+      width:14px;height:14px;stroke:currentColor;fill:none;
+      stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
     }
 
     /* ===== Profile button ===== */
     .profile-btn{
-      width:40px;
-      height:40px;
-      flex:0 0 auto;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:50%;
-      color:var(--text-secondary);
-      text-decoration:none;
-      transition:var(--transition);
-      -webkit-tap-highlight-color:transparent;
+      width:40px;height:40px;flex:0 0 auto;
+      display:inline-flex;align-items:center;justify-content:center;
+      overflow:hidden;background:var(--surface);border:1px solid var(--border);
+      border-radius:50%;color:var(--text-secondary);text-decoration:none;
+      transition:var(--transition);-webkit-tap-highlight-color:transparent;
     }
-    .profile-btn:hover,
-    .profile-btn:focus-visible{
-      color:var(--gold);
-      border-color:rgba(184,149,58,.45);
-      box-shadow:var(--shadow);
-      transform:translateY(-1px);
-      outline:none;
+    .profile-btn:hover,.profile-btn:focus-visible{
+      color:var(--gold);border-color:rgba(184,149,58,.45);
+      box-shadow:var(--shadow);transform:translateY(-1px);outline:none;
     }
-    .profile-btn:active{transform:translateY(0)}
     .profile-btn svg{
-      width:19px;height:19px;
-      stroke:currentColor;fill:none;
+      width:19px;height:19px;stroke:currentColor;fill:none;
       stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
     }
-    .profile-btn img{
-      width:100%;height:100%;
-      object-fit:cover;
-      border-radius:50%;
-      display:block;
-    }
+    .profile-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
     .profile-btn img[hidden]{display:none}
 
     /* ===== Store header ===== */
-    .store-header{
-      text-align:center;
-      padding:1.5rem 0 3rem;
-    }
-
+    .store-header{text-align:center;padding:1rem 0 2.4rem}
     .brand-mark{
-      width:64px;
-      height:64px;
-      margin:0 auto 1.2rem;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:20px;
-      box-shadow:var(--shadow);
-      color:var(--gold);
+      width:64px;height:64px;margin:0 auto 1.2rem;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:20px;box-shadow:var(--shadow);color:var(--gold);
     }
     .brand-mark svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 
     .store-header h1{
-      font-size:2.4rem;
-      font-weight:700;
-      letter-spacing:-.02em;
-      margin-bottom:.4rem;
+      font-size:2.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.4rem;
     }
-    .store-header p{
-      color:var(--text-secondary);
-      font-size:.95rem;
-      font-weight:300;
+    .store-header p{color:var(--text-secondary);font-size:.95rem;font-weight:300}
+
+    /* ===== Filters ===== */
+    .filters{
+      display:flex;gap:.5rem;overflow-x:auto;
+      padding-bottom:.5rem;margin-bottom:2rem;
+      scrollbar-width:none;-ms-overflow-style:none;
     }
+    .filters::-webkit-scrollbar{display:none}
+    .filters[hidden]{display:none}
+
+    .chip{
+      flex:0 0 auto;font-family:inherit;font-size:.78rem;font-weight:600;
+      padding:.5rem 1rem;border-radius:40px;
+      border:1px solid var(--border);background:var(--surface);
+      color:var(--text-secondary);cursor:pointer;
+      transition:var(--transition);white-space:nowrap;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .chip:hover{color:var(--text-primary);border-color:#d6d6dc}
+    .chip.active{
+      background:var(--gold);color:#fff;border-color:var(--gold);
+      box-shadow:0 4px 12px rgba(184,149,58,.25);
+    }
+    .chip:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(184,149,58,.25)}
+
+    /* ===== Products sections ===== */
+    .products-section{margin-bottom:2.6rem}
+    .products-section[hidden]{display:none}
+
+    .section-head{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:1.15rem;padding:0 .2rem;
+    }
+    .section-head h2{
+      font-size:1.15rem;font-weight:700;letter-spacing:-.01em;
+      color:var(--text-primary);display:flex;align-items:center;gap:.55rem;
+    }
+    .section-head h2::before{
+      content:'';display:inline-block;width:4px;height:18px;
+      background:var(--gold);border-radius:4px;
+    }
+
+    /* ===== Products grid ===== */
+    .products-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:1rem;
+    }
+
+    .product-card{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;
+      text-decoration:none;color:inherit;
+      transition:var(--transition);
+      display:flex;flex-direction:column;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .product-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow-hover);
+      border-color:rgba(184,149,58,.35);
+    }
+    .product-card:focus-visible{
+      outline:none;box-shadow:0 0 0 3px rgba(184,149,58,.25);
+    }
+
+    .product-image{
+      position:relative;aspect-ratio:1;background:var(--bg);overflow:hidden;
+    }
+    .product-image img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transition:transform .45s cubic-bezier(.25,.1,.15,1);
+    }
+    .product-card:hover .product-image img{transform:scale(1.04)}
+
+    .product-badge{
+      position:absolute;top:8px;right:8px;
+      font-size:.62rem;font-weight:600;
+      padding:.22rem .55rem;border-radius:6px;
+      background:rgba(255,255,255,.94);color:var(--text-secondary);
+      backdrop-filter:blur(8px);
+      letter-spacing:.01em;max-width:70%;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+
+    .product-status{
+      position:absolute;top:8px;left:8px;
+      font-size:.6rem;font-weight:700;
+      padding:.22rem .5rem;border-radius:6px;
+      background:rgba(184,149,58,.95);color:#fff;
+      letter-spacing:.01em;
+    }
+
+    .product-info{
+      padding:.8rem .9rem 1rem;
+      display:flex;flex-direction:column;gap:.4rem;
+    }
+    .product-title{
+      font-size:.85rem;font-weight:600;line-height:1.55;
+      color:var(--text-primary);
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+      overflow:hidden;min-height:2.6em;
+    }
+    .product-price{
+      display:flex;align-items:baseline;gap:.28rem;
+      color:var(--gold);font-weight:700;
+    }
+    .product-price .price{font-size:1rem;font-variant-numeric:tabular-nums}
+    .product-price .currency{font-size:.72rem;font-weight:600}
 
     /* ===== Empty / placeholder state ===== */
     .state-box{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:4rem 1.5rem;
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      margin-bottom:2.5rem;
-      min-height:340px;
+      flex:1;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;text-align:center;
+      padding:4rem 1.5rem;background:var(--surface);
+      border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);margin-bottom:2.5rem;min-height:340px;
     }
+    .state-box[hidden]{display:none}
 
     .state-icon{
-      width:80px;
-      height:80px;
-      margin-bottom:1.4rem;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--bg);
-      border-radius:24px;
-      color:var(--text-tertiary);
+      width:80px;height:80px;margin-bottom:1.4rem;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--bg);border-radius:24px;color:var(--text-tertiary);
     }
-    .state-icon svg{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-
-    .state-title{
-      font-size:1.1rem;
-      font-weight:700;
-      margin-bottom:.35rem;
+    .state-icon svg{
+      width:38px;height:38px;stroke:currentColor;fill:none;
+      stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;
     }
+    .state-title{font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
     .state-sub{
-      font-size:.85rem;
-      font-weight:300;
-      color:var(--text-secondary);
-      max-width:340px;
+      font-size:.85rem;font-weight:300;color:var(--text-secondary);
+      max-width:340px;margin-bottom:1.5rem;
+    }
+
+    .btn-primary-large{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-family:inherit;font-size:.9rem;font-weight:700;
+      padding:.85rem 1.6rem;
+      background:linear-gradient(180deg,#c9a34a,#b8953a);
+      color:#fff;text-decoration:none;border-radius:var(--radius-sm);
+      transition:var(--transition);
+      box-shadow:0 6px 20px rgba(184,149,58,.26);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .btn-primary-large:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(184,149,58,.33)}
+    .btn-primary-large:active{transform:translateY(0);box-shadow:none}
+    .btn-primary-large svg{
+      width:16px;height:16px;stroke:currentColor;fill:none;
+      stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
     }
 
     /* ===== Footer ===== */
-    .footer{
-      padding:2rem 0 1rem;
-      text-align:center;
-    }
+    .footer{padding:2rem 0 1rem;text-align:center}
     .footer .signoff{
-      font-size:.85rem;
-      font-weight:300;
-      color:var(--text-secondary);
+      font-size:.85rem;font-weight:300;color:var(--text-secondary);
       margin-bottom:.4rem;
     }
     .footer .credit{
-      font-size:.68rem;
-      font-weight:300;
-      color:var(--text-tertiary);
+      font-size:.68rem;font-weight:300;color:var(--text-tertiary);
       letter-spacing:.02em;
     }
 
     /* ===== Responsive ===== */
     @media(max-width:780px){
       .store-header h1{font-size:1.9rem}
-      .store-header{padding:1rem 0 2.2rem}
-      .top-bar{margin-bottom:2rem}
+      .store-header{padding:.8rem 0 2rem}
+      .top-bar{margin-bottom:1.8rem}
+      .products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem}
+      .product-info{padding:.7rem .75rem .9rem}
+      .product-title{font-size:.8rem}
     }
 
     @media(max-width:520px){
@@ -275,6 +330,14 @@
       .brand-mark{width:56px;height:56px;border-radius:18px}
       .brand-mark svg{width:26px;height:26px}
       .profile-btn{width:38px;height:38px}
+      .btn-add-top{padding:.5rem .85rem;font-size:.72rem}
+      .btn-add-top span{display:none}
+      .btn-add-top{padding:.55rem}
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:.7rem}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:.01ms !important;transition-duration:.01ms !important}
     }
 
     ::-webkit-scrollbar{width:4px;height:4px}
@@ -284,7 +347,7 @@
 </head>
 <body>
 
-  <!-- Loader أثناء التحقق من الجلسة -->
+  <!-- Loader أثناء التحقق من الجلسة + تحميل المنتجات -->
   <div class="loader" id="bootLoader"><div class="spinner"></div></div>
 
   <div class="container">
@@ -301,9 +364,13 @@
       </a>
 
       <div class="top-actions">
+        <a href="new-prodect.html" class="btn-add-top" aria-label="نشر منتج جديد" title="نشر منتج جديد">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <span>نشر منتج</span>
+        </a>
+
         <span class="top-meta">المتجر الرسمي</span>
 
-        <!-- زر الملف الشخصي -->
         <a href="profile.html" class="profile-btn" id="profileBtn" aria-label="الملف الشخصي" title="الملف الشخصي">
           <svg id="userIcon" viewBox="0 0 24 24">
             <circle cx="12" cy="8" r="3.6" />
@@ -328,8 +395,23 @@
       <p>منصة أنيقة لعرض المنتجات والتواصل مع البائعين</p>
     </header>
 
-    <!-- Placeholder state -->
-    <div class="state-box">
+    <!-- Filters -->
+    <div class="filters" id="filters" hidden></div>
+
+    <!-- Trending section -->
+    <section class="products-section" id="trendingSection" hidden>
+      <div class="section-head"><h2>منتجات رائجة</h2></div>
+      <div class="products-grid" id="trendingGrid"></div>
+    </section>
+
+    <!-- All products section -->
+    <section class="products-section" id="allSection" hidden>
+      <div class="section-head"><h2>كل المنتجات</h2></div>
+      <div class="products-grid" id="allGrid"></div>
+    </section>
+
+    <!-- Empty state -->
+    <div class="state-box" id="emptyState" hidden>
       <div class="state-icon">
         <svg viewBox="0 0 24 24">
           <path d="M21 8l-9-5-9 5v8l9 5 9-5V8z" />
@@ -338,7 +420,11 @@
         </svg>
       </div>
       <p class="state-title">لا توجد منتجات بعد</p>
-      <p class="state-sub">سيتم عرض المنتجات هنا قريباً — هذه نسخة أولية جاهزة للتطوير.</p>
+      <p class="state-sub">كن أول من ينشر منتجاً في المتجر — اضغط الزر أدناه للبدء.</p>
+      <a href="new-prodect.html" class="btn-primary-large">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        نشر أول منتج
+      </a>
     </div>
 
     <!-- Footer -->
@@ -361,11 +447,53 @@
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
 
-    const loader    = document.getElementById('bootLoader');
-    const avatarImg = document.getElementById('avatarImg');
-    const userIcon  = document.getElementById('userIcon');
+    /* ---------- عناصر ---------- */
+    const loader         = document.getElementById('bootLoader');
+    const avatarImg      = document.getElementById('avatarImg');
+    const userIcon       = document.getElementById('userIcon');
+    const filtersEl      = document.getElementById('filters');
+    const trendingSection = document.getElementById('trendingSection');
+    const trendingGrid   = document.getElementById('trendingGrid');
+    const allSection     = document.getElementById('allSection');
+    const allGrid        = document.getElementById('allGrid');
+    const emptyState     = document.getElementById('emptyState');
 
     const goRegister = () => location.replace('register.html');
+
+    /* ---------- قاموس التسميات ---------- */
+    const categoryLabels = {
+      electronics: 'إلكترونيات',
+      fashion:     'أزياء وملابس',
+      home:        'منزل ومطبخ',
+      beauty:      'جمال وعناية',
+      sports:      'رياضة ولياقة',
+      kids:        'أطفال ومستلزماتهم',
+      cars:        'سيارات وقطع غيار',
+      books:       'كتب وأدوات مكتبية',
+      other:       'أخرى'
+    };
+
+    const currencySymbols = {
+      EGP: 'ج.م', SAR: 'ر.س', AED: 'د.إ', KWD: 'د.ك',
+      QAR: 'ر.ق', USD: '$', EUR: '€'
+    };
+
+    /* ---------- أدوات ---------- */
+    let allProducts    = [];
+    let activeCategory = '';
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function formatNumber(n) {
+      if (n == null || n === '') return '';
+      const num = Number(n);
+      if (Number.isNaN(num)) return '';
+      return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+    }
 
     function showPage() {
       document.body.classList.add('ready');
@@ -382,12 +510,121 @@
       }
     }
 
+    /* ---------- بناء كارت منتج ---------- */
+    function renderCard(p) {
+      const cover   = p.cover_url || 'logo.png';
+      const catLbl  = categoryLabels[p.category] || p.category || '';
+      const cur     = currencySymbols[p.currency] || p.currency || 'ج.م';
+      const price   = formatNumber(p.price);
+      const title   = escapeHtml(p.title || 'بدون اسم');
+      const isPend  = p.status === 'pending';
+
+      return `
+        <a href="product.html?id=${encodeURIComponent(p.id)}" class="product-card" aria-label="${title}">
+          <div class="product-image">
+            <img src="${escapeHtml(cover)}" alt="${title}" loading="lazy" />
+            ${catLbl ? `<span class="product-badge">${escapeHtml(catLbl)}</span>` : ''}
+            ${isPend ? `<span class="product-status">قيد المراجعة</span>` : ''}
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">${title}</h3>
+            <div class="product-price">
+              <span class="price">${escapeHtml(price)}</span>
+              <span class="currency">${escapeHtml(cur)}</span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    /* ---------- بناء الفلاتر ---------- */
+    function buildFilters() {
+      const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))];
+      if (cats.length <= 1) { filtersEl.hidden = true; return; }
+
+      filtersEl.innerHTML =
+        `<button class="chip active" data-cat="">الكل</button>` +
+        cats.map(c =>
+          `<button class="chip" data-cat="${escapeHtml(c)}">${escapeHtml(categoryLabels[c] || c)}</button>`
+        ).join('');
+
+      filtersEl.hidden = false;
+    }
+
+    filtersEl.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      filtersEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeCategory = chip.dataset.cat || '';
+      updateAllGrid();
+    });
+
+    /* ---------- عرض الشبكة العامة ---------- */
+    function updateAllGrid() {
+      const filtered = activeCategory
+        ? allProducts.filter(p => p.category === activeCategory)
+        : allProducts;
+
+      if (filtered.length === 0) {
+        allGrid.innerHTML =
+          `<p style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:2rem;font-size:.85rem;">لا توجد منتجات في هذا القسم.</p>`;
+        return;
+      }
+      allGrid.innerHTML = filtered.map(renderCard).join('');
+    }
+
+    /* ---------- عرض كل الأقسام ---------- */
+    function renderProducts() {
+      if (allProducts.length === 0) {
+        emptyState.hidden = false;
+        trendingSection.hidden = true;
+        allSection.hidden = true;
+        filtersEl.hidden = true;
+        return;
+      }
+
+      emptyState.hidden = true;
+
+      // منتجات رائجة = أحدث 4 (تظهر فقط عند وجود أكثر من 4 منتجات)
+      if (allProducts.length > 4) {
+        trendingGrid.innerHTML = allProducts.slice(0, 4).map(renderCard).join('');
+        trendingSection.hidden = false;
+      } else {
+        trendingSection.hidden = true;
+      }
+
+      buildFilters();
+      updateAllGrid();
+      allSection.hidden = false;
+    }
+
+    /* ---------- جلب المنتجات ---------- */
+    async function loadProducts() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('id, title, cover_url, price, currency, category, condition, status, created_at')
+        .order('created_at', { ascending: false })
+        .limit(200);
+
+      if (error) {
+        console.error('خطأ في جلب المنتجات:', error);
+        allProducts = [];
+        return;
+      }
+      allProducts = data || [];
+    }
+
+    /* ---------- التهيئة ---------- */
     (async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error || !session) return goRegister();
 
         paintAvatar(session.user);
+
+        await loadProducts();
+        renderProducts();
         showPage();
 
         // لو خرج من الحساب في تاب آخر → رجّعه للتسجيل
