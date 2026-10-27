@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هوسكرايب · إضافة منتج جديد</title>
+  <meta name="description" content="أضف منتجك إلى متجر هوسكرايب — بيانات كاملة، صور عالية الجودة، وتواصل مباشر مع المشترين." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+    :root{
+      --bg:#f5f5f7;
+      --surface:#ffffff;
+      --text-primary:#1d1d1f;
+      --text-secondary:#6e6e73;
+      --text-tertiary:#8e8e93;
+      --gold:#b8953a;
+      --gold-soft:rgba(184,149,58,.14);
+      --border:#e3e3e6;
+      --danger:#a3231b;
+      --danger-bg:#fdf1f0;
+      --danger-border:#f4d6d3;
+      --success:#1f7a45;
+      --success-bg:#f0faf4;
+      --success-border:#c9e9d6;
+      --radius:20px;
+      --radius-sm:12px;
+      --transition:.3s cubic-bezier(.25,.1,.15,1);
+      --shadow:0 8px 30px rgba(0,0,0,.05);
+      --shadow-hover:0 12px 40px rgba(0,0,0,.09);
+      --max-width:780px;
+    }
+
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+
+    body{
+      font-family:'Cairo',-apple-system,BlinkMacSystemFont,sans-serif;
+      background:var(--bg);
+      background-image:radial-gradient(1200px 600px at 50% -10%, rgba(184,149,58,.06), transparent 60%);
+      color:var(--text-primary);
+      line-height:1.7;
+      min-height:100vh;
+      min-height:100dvh;
+      padding:2.4rem 1.6rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .container{
+      max-width:var(--max-width);
+      width:100%;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+      opacity:0;
+      transform:translateY(6px);
+      transition:opacity .4s ease, transform .4s ease;
+    }
+    body.ready .container{opacity:1;transform:none}
+
+    /* ===== Boot loader ===== */
+    .loader{
+      position:fixed;
+      inset:0;
+      z-index:60;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--bg);
+      transition:opacity .35s ease;
+    }
+    .loader.hide{opacity:0;pointer-events:none}
+    .spinner{
+      width:34px;height:34px;
+      border:2.5px solid var(--border);
+      border-top-color:var(--gold);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ===== Top bar ===== */
+    .top-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding-bottom:1rem;
+      border-bottom:1px solid var(--border);
+      margin-bottom:2.2rem;
+    }
+
+    .brand-link{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      font-size:.8rem;
+      font-weight:600;
+      color:var(--text-secondary);
+      text-decoration:none;
+      padding:.45rem .9rem;
+      border-radius:40px;
+      border:1px solid transparent;
+      transition:var(--transition);
+    }
+    .brand-link:hover{
+      color:var(--text-primary);
+      background:var(--surface);
+      border-color:var(--border);
+      box-shadow:var(--shadow);
+    }
+    .brand-link svg{
+      width:16px;height:16px;
+      stroke:currentColor;fill:none;
+      stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+    }
+
+    .top-actions{display:flex;align-items:center;gap:.7rem}
+
+    .top-meta{
+      font-size:.72rem;
+      font-weight:400;
+      color:var(--text-tertiary);
+      letter-spacing:.02em;
+    }
+
+    .profile-btn{
+      width:40px;height:40px;flex:0 0 auto;
+      display:inline-flex;align-items:center;justify-content:center;
+      overflow:hidden;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:50%;
+      color:var(--text-secondary);
+      text-decoration:none;
+      transition:var(--transition);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .profile-btn:hover,.profile-btn:focus-visible{
+      color:var(--gold);
+      border-color:rgba(184,149,58,.45);
+      box-shadow:var(--shadow);
+      transform:translateY(-1px);
+      outline:none;
+    }
+    .profile-btn svg{
+      width:19px;height:19px;
+      stroke:currentColor;fill:none;
+      stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+    }
+    .profile-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+    .profile-btn img[hidden]{display:none}
+
+    /* ===== Page header ===== */
+    .page-head{text-align:center;padding:.5rem 0 2rem}
+
+    .brand-mark{
+      width:60px;height:60px;
+      margin:0 auto 1.1rem;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:19px;
+      box-shadow:var(--shadow);
+      color:var(--gold);
+    }
+    .brand-mark svg{
+      width:28px;height:28px;
+      stroke:currentColor;fill:none;
+      stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+    }
+
+    .page-head h1{
+      font-size:1.55rem;
+      font-weight:700;
+      letter-spacing:-.02em;
+      margin-bottom:.35rem;
+    }
+    .page-head p{
+      font-size:.85rem;
+      font-weight:300;
+      color:var(--text-secondary);
+      max-width:420px;
+      margin:0 auto;
+    }
+
+    /* ===== Progress ===== */
+    .progress-wrap{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      margin-bottom:1.5rem;
+      padding:0 .2rem;
+    }
+    .progress-track{
+      flex:1;
+      height:4px;
+      border-radius:10px;
+      background:var(--border);
+      overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;
+      width:0;
+      border-radius:10px;
+      background:linear-gradient(90deg,rgba(184,149,58,.65),var(--gold));
+      transition:width .35s ease;
+    }
+    .progress-text{
+      font-size:.68rem;
+      font-weight:600;
+      color:var(--text-tertiary);
+      min-width:36px;
+      text-align:left;
+      font-variant-numeric:tabular-nums;
+    }
+
+    /* ===== Card ===== */
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:1.5rem 1.4rem;
+      margin-bottom:1.1rem;
+    }
+
+    .card-head{
+      display:flex;
+      align-items:flex-start;
+      gap:.85rem;
+      margin-bottom:1.4rem;
+      padding-bottom:1.05rem;
+      border-bottom:1px solid var(--border);
+    }
+
+    .card-step{
+      width:28px;height:28px;flex:0 0 auto;
+      display:grid;place-items:center;
+      border-radius:9px;
+      background:rgba(184,149,58,.10);
+      border:1px solid rgba(184,149,58,.18);
+      color:var(--gold);
+      font-size:.76rem;
+      font-weight:700;
+    }
+
+    .card-head h2{
+      font-size:1rem;
+      font-weight:700;
+      letter-spacing:-.01em;
+      line-height:1.5;
+    }
+    .card-head p{
+      font-size:.72rem;
+      font-weight:300;
+      color:var(--text-tertiary);
+      margin-top:.05rem;
+    }
+
+    /* ===== Grid ===== */
+    .grid{display:grid;gap:.9rem}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .col-span{grid-column:1 / -1}
+
+    /* ===== Fields ===== */
+    .field{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+
+    .field > label{
+      font-size:.78rem;
+      font-weight:600;
+      color:var(--text-secondary);
+      line-height:1.5;
+    }
+    .req{color:var(--gold);font-weight:700}
+
+    input[type=text],input[type=number],input[type=tel],input[type=email],select,textarea{
+      width:100%;
+      font-family:inherit;
+      font-size:.88rem;
+      font-weight:400;
+      color:var(--text-primary);
+      background:#fbfbfc;
+      border:1px solid var(--border);
+      border-radius:var(--radius-sm);
+      padding:.78rem .95rem;
+      transition:var(--transition);
+      -webkit-appearance:none;
+      appearance:none;
+    }
+    input::placeholder,textarea::placeholder{color:#b6b6bd;font-weight:300}
+    input:hover,select:hover,textarea:hover{border-color:#d6d6dc}
+    input:focus,select:focus,textarea:focus{
+      outline:none;
+      border-color:rgba(184,149,58,.55);
+      background:var(--surface);
+      box-shadow:0 0 0 3px var(--gold-soft);
+    }
+
+    textarea{min-height:128px;resize:vertical;line-height:1.9}
+    textarea.counter-target{padding-bottom:2rem}
+
+    select{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:left .9rem center;
+      background-size:14px;
+      padding-left:2.3rem;
+      cursor:pointer;
+    }
+    select:invalid{color:#b6b6bd}
+
+    .field .hint{font-size:.68rem;font-weight:300;color:var(--text-tertiary);line-height:1.7}
+    .field .msg{font-size:.68rem;font-weight:500;color:var(--danger);line-height:1.7}
+    .field .msg[hidden]{display:none}
+
+    .field.invalid input,
+    .field.invalid select,
+    .field.invalid textarea{
+      border-color:#e6b3ae;
+      background:#fdf7f6;
+    }
+    .field.invalid input:focus,
+    .field.invalid select:focus,
+    .field.invalid textarea:focus{
+      box-shadow:0 0 0 3px rgba(163,35,27,.10);
+    }
+
+    /* ===== Dropzone ===== */
+    .dropzone{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:.3rem;
+      padding:2rem 1rem;
+      text-align:center;
+      background:#fbfbfc;
+      border:1.5px dashed var(--border);
+      border-radius:var(--radius-sm);
+      cursor:pointer;
+      transition:var(--transition);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .dropzone:hover,
+    .dropzone:focus-within,
+    .dropzone.drag{
+      border-color:rgba(184,149,58,.55);
+      background:rgba(184,149,58,.04);
+    }
+    .dropzone svg{
+      width:26px;height:26px;
+      stroke:var(--gold);fill:none;
+      stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+      margin-bottom:.4rem;
+    }
+    .dz-title{font-size:.85rem;font-weight:600;color:var(--text-primary)}
+    .dz-sub{font-size:.7rem;font-weight:300;color:var(--text-tertiary)}
+
+    /* ===== Thumbs ===== */
+    .thumbs{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(94px,1fr));
+      gap:.6rem;
+      margin-top:.9rem;
+    }
+    .thumbs[hidden]{display:none}
+
+    .thumb{
+      position:relative;
+      aspect-ratio:1;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      background:var(--bg);
+    }
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .thumb .rm{
+      position:absolute;
+      top:5px;left:5px;
+      width:22px;height:22px;
+      display:grid;place-items:center;
+      border:none;
+      border-radius:50%;
+      background:rgba(0,0,0,.55);
+      color:#fff;
+      font-size:14px;
+      line-height:1;
+      cursor:pointer;
+      backdrop-filter:blur(4px);
+      transition:var(--transition);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .thumb .rm:hover{background:rgba(163,35,27,.92)}
+    .thumb .rm:focus-visible{outline:2px solid #fff;outline-offset:1px}
+
+    .thumb .cover{
+      position:absolute;
+      bottom:5px;right:5px;
+      font-size:.55rem;
+      font-weight:600;
+      padding:.12rem .38rem;
+      border-radius:5px;
+      background:rgba(184,149,58,.94);
+      color:#fff;
+      letter-spacing:.01em;
+    }
+
+    .images-error{
+      margin-top:.7rem;
+      font-size:.7rem;
+      font-weight:500;
+      color:var(--danger);
+    }
+    .images-error[hidden]{display:none}
+
+    /* ===== Attributes repeater ===== */
+    .attr-row{
+      display:grid;
+      grid-template-columns:1fr 1.4fr auto;
+      gap:.5rem;
+      align-items:center;
+      margin-bottom:.5rem;
+    }
+    .attr-row input{padding:.62rem .8rem;font-size:.82rem}
+    .attr-rm{
+      width:36px;height:36px;flex:0 0 auto;
+      display:grid;place-items:center;
+      background:transparent;
+      border:1px solid var(--border);
+      border-radius:10px;
+      color:var(--text-tertiary);
+      cursor:pointer;
+      transition:var(--transition);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .attr-rm:hover{color:var(--danger);border-color:var(--danger-border);background:var(--danger-bg)}
+    .attr-rm svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+    .btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+      font-family:inherit;
+      font-size:.76rem;
+      font-weight:600;
+      color:var(--text-secondary);
+      background:transparent;
+      border:1px dashed var(--border);
+      border-radius:10px;
+      padding:.5rem .9rem;
+      cursor:pointer;
+      transition:var(--transition);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .btn-ghost:hover{
+      color:var(--gold);
+      border-color:rgba(184,149,58,.5);
+      background:rgba(184,149,58,.04);
+    }
+    .btn-ghost:focus-visible{outline:none;box-shadow:0 0 0 3px var(--gold-soft)}
+    .btn-ghost svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+    /* ===== Submit area ===== */
+    .submit-area{padding:.5rem 0 0}
+
+    .check{
+      display:flex;
+      align-items:flex-start;
+      gap:.6rem;
+      font-size:.78rem;
+      font-weight:300;
+      color:var(--text-secondary);
+      line-height:1.8;
+      cursor:pointer;
+      user-select:none;
+    }
+    .check input{
+      width:18px;height:18px;
+      margin-top:.18rem;
+      flex:0 0 auto;
+      accent-color:var(--gold);
+      cursor:pointer;
+    }
+    .check a{
+      color:var(--text-secondary);
+      text-decoration:none;
+      border-bottom:1px solid var(--border);
+      transition:var(--transition);
+    }
+    .check a:hover{color:var(--gold);border-color:rgba(184,149,58,.5)}
+    .field.invalid .check span{color:var(--danger)}
+
+    .btn-primary{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:.6rem;
+      width:100%;
+      min-height:54px;
+      margin-top:1.2rem;
+      padding:.9rem 1.2rem;
+      font-family:inherit;
+      font-size:.95rem;
+      font-weight:700;
+      color:#fff;
+      background:linear-gradient(180deg,#c9a34a,#b8953a);
+      border:1px solid rgba(0,0,0,.04);
+      border-radius:var(--radius-sm);
+      cursor:pointer;
+      transition:var(--transition);
+      box-shadow:0 6px 20px rgba(184,149,58,.26);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .btn-primary:hover:not(:disabled){
+      transform:translateY(-1px);
+      box-shadow:0 10px 26px rgba(184,149,58,.33);
+    }
+    .btn-primary:active:not(:disabled){transform:translateY(0);box-shadow:none}
+    .btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(184,149,58,.35)}
+    .btn-primary:disabled{opacity:.65;cursor:not-allowed;box-shadow:none;transform:none}
+
+    .btn-spinner{
+      display:none;
+      width:16px;height:16px;
+      flex:0 0 auto;
+      border:2px solid rgba(255,255,255,.35);
+      border-top-color:#fff;
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+    .btn-primary.loading .btn-spinner{display:inline-block}
+
+    /* ===== Notices ===== */
+    .notice{
+      margin-top:1rem;
+      padding:.7rem .9rem;
+      font-size:.78rem;
+      font-weight:400;
+      border-radius:10px;
+      text-align:center;
+      line-height:1.8;
+    }
+    .notice[hidden]{display:none}
+    .notice.error{
+      color:var(--danger);
+      background:var(--danger-bg);
+      border:1px solid var(--danger-border);
+    }
+    .notice.success{
+      color:var(--success);
+      background:var(--success-bg);
+      border:1px solid var(--success-border);
+    }
+
+    /* ===== Footer ===== */
+    .footer{padding:2.2rem 0 .5rem;text-align:center}
+    .footer .signoff{
+      font-size:.82rem;
+      font-weight:300;
+      color:var(--text-secondary);
+      margin-bottom:.35rem;
+    }
+    .footer .credit{
+      font-size:.66rem;
+      font-weight:300;
+      color:var(--text-tertiary);
+      letter-spacing:.02em;
+    }
+
+    /* ===== Responsive ===== */
+    @media(max-width:680px){
+      .grid-2,.grid-3{grid-template-columns:1fr}
+      .attr-row{grid-template-columns:1fr 1fr auto}
+    }
+
+    @media(max-width:520px){
+      body{padding:1.6rem 1rem}
+      .page-head h1{font-size:1.3rem}
+      .card{padding:1.25rem 1.05rem}
+      .top-bar{margin-bottom:1.8rem}
+      .top-meta{display:none}
+      .brand-mark{width:54px;height:54px;border-radius:17px}
+      .brand-mark svg{width:25px;height:25px}
+      .profile-btn{width:38px;height:38px}
+      .btn-primary{font-size:.9rem;min-height:52px}
+      .thumbs{grid-template-columns:repeat(auto-fill,minmax(82px,1fr))}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+    }
+
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+  </style>
+</head>
+<body>
+
+  <!-- Loader أثناء التحقق من الجلسة -->
+  <div class="loader" id="bootLoader"><div class="spinner"></div></div>
+
+  <div class="container">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <a href="index.html" class="brand-link">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <span>رجوع إلى المتجر</span>
+      </a>
+
+      <div class="top-actions">
+        <span class="top-meta">إضافة منتج</span>
+
+        <a href="profile.html" class="profile-btn" aria-label="الملف الشخصي" title="الملف الشخصي">
+          <svg id="userIcon" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="3.6" />
+            <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+          </svg>
+          <img id="avatarImg" alt="صورة الملف الشخصي" hidden />
+        </a>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="page-head">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 9l1.5-5h15L21 9" />
+          <path d="M3 9v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9" />
+          <path d="M3 9h18" />
+          <path d="M9 13a3 3 0 0 0 6 0" />
+        </svg>
+      </div>
+      <h1>إضافة منتج جديد</h1>
+      <p>كلّما كانت تفاصيل منتجك أوضح وصوره أجود، زادت فرص بيعه. البيانات كلها قابلة للتعديل لاحقاً.</p>
+    </header>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-text" id="progressText">0%</span>
+    </div>
+
+    <!-- Form -->
+    <form id="productForm" novalidate autocomplete="on">
+
+      <!-- ========== 1 · الصور ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">1</span>
+          <div>
+            <h2>صور المنتج</h2>
+            <p>حتى 8 صور · الحد الأقصى 2 ميجابايت للصورة · تُضغط تلقائياً</p>
+          </div>
+        </div>
+
+        <label class="dropzone" id="dropzone" for="imageInput" tabindex="0">
+          <input type="file" id="imageInput" accept="image/*" multiple hidden />
+          <svg viewBox="0 0 24 24">
+            <path d="M12 16V4" />
+            <path d="M7.5 8.5 12 4l4.5 4.5" />
+            <path d="M20 15.5v3a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-3" />
+          </svg>
+          <span class="dz-title">اسحب الصور هنا أو اضغط للاختيار</span>
+          <span class="dz-sub">JPG · PNG · WEBP — الصورة الأولى هي الغلاف</span>
+        </label>
+
+        <div class="thumbs" id="thumbs" hidden></div>
+        <p class="images-error" id="imagesError" hidden></p>
+      </section>
+
+      <!-- ========== 2 · المعلومات الأساسية ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">2</span>
+          <div>
+            <h2>المعلومات الأساسية</h2>
+            <p>اسم المنتج وفئته ووصفه</p>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="field col-span">
+            <label for="title">اسم المنتج <span class="req">*</span></label>
+            <input type="text" id="title" name="title" maxlength="120" required
+                   placeholder="مثال: ساعة يد جلدية كلاسيكية — أسود" />
+            <p class="hint">اكتب اسماً واضحاً يحتوي على النوع واللون أو الموديل.</p>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="category">الفئة <span class="req">*</span></label>
+            <select id="category" name="category" required>
+              <option value="" selected disabled>اختر الفئة</option>
+              <option value="electronics">إلكترونيات</option>
+              <option value="fashion">أزياء وملابس</option>
+              <option value="home">منزل ومطبخ</option>
+              <option value="beauty">جمال وعناية</option>
+              <option value="sports">رياضة ولياقة</option>
+              <option value="kids">أطفال ومستلزماتهم</option>
+              <option value="cars">سيارات وقطع غيار</option>
+              <option value="books">كتب وأدوات مكتبية</option>
+              <option value="other">أخرى</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="subcategory">الفئة الفرعية</label>
+            <input type="text" id="subcategory" name="subcategory" maxlength="60"
+                   placeholder="مثال: ساعات رجالية" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="brand">العلامة التجارية</label>
+            <input type="text" id="brand" name="brand" maxlength="60" placeholder="مثال: Casio" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="condition">حالة المنتج <span class="req">*</span></label>
+            <select id="condition" name="condition" required>
+              <option value="" selected disabled>اختر الحالة</option>
+              <option value="new">جديد</option>
+              <option value="like_new">مستعمل — كالجديد</option>
+              <option value="used">مستعمل</option>
+              <option value="refurbished">مُجدَّد</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field col-span">
+            <label for="description">وصف المنتج <span class="req">*</span></label>
+            <textarea id="description" name="description" maxlength="2000" required
+                      placeholder="اذكر تفاصيل المنتج، استخداماته، ما يشمله الصندوق، وأي ملاحظات مهمة للمشتري…"></textarea>
+            <p class="hint"><span id="descCount">0</span> / 2000 حرف — الوصف التفصيلي يقلّل الاستفسارات ويزيد الثقة.</p>
+            <p class="msg" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 3 · التسعير والمخزون ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">3</span>
+          <div>
+            <h2>التسعير والمخزون</h2>
+            <p>السعر والكمية المتاحة ورمز المنتج</p>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="price">السعر <span class="req">*</span></label>
+            <input type="number" id="price" name="price" min="0" step="0.01" inputmode="decimal"
+                   placeholder="0.00" required />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="compare_price">السعر قبل الخصم</label>
+            <input type="number" id="compare_price" name="compare_price" min="0" step="0.01"
+                   inputmode="decimal" placeholder="اختياري" />
+            <p class="hint">اتركه فارغاً إن لم يكن هناك خصم.</p>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="currency">العملة <span class="req">*</span></label>
+            <select id="currency" name="currency" required>
+              <option value="EGP" selected>جنيه مصري (EGP)</option>
+              <option value="SAR">ريال سعودي (SAR)</option>
+              <option value="AED">درهم إماراتي (AED)</option>
+              <option value="KWD">دينار كويتي (KWD)</option>
+              <option value="QAR">ريال قطري (QAR)</option>
+              <option value="USD">دولار أمريكي (USD)</option>
+              <option value="EUR">يورو (EUR)</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="stock">الكمية المتاحة <span class="req">*</span></label>
+            <input type="number" id="stock" name="stock" min="0" step="1" inputmode="numeric"
+                   placeholder="0" required />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="sku">رمز المنتج (SKU)</label>
+            <input type="text" id="sku" name="sku" maxlength="40" placeholder="اختياري" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="min_order">الحد الأدنى للطلب</label>
+            <input type="number" id="min_order" name="min_order" min="1" step="1"
+                   inputmode="numeric" placeholder="1" />
+            <p class="msg" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4 · المواصفات ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">4</span>
+          <div>
+            <h2>المواصفات والتفاصيل</h2>
+            <p>خصائص إضافية تساعد المشتري على اتخاذ القرار</p>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="colors">الألوان المتاحة</label>
+            <input type="text" id="colors" name="colors" maxlength="120"
+                   placeholder="مثال: أسود، أبيض، ذهبي" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="sizes">المقاسات المتاحة</label>
+            <input type="text" id="sizes" name="sizes" maxlength="120"
+                   placeholder="مثال: S، M، L، XL" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="origin">بلد المنشأ</label>
+            <input type="text" id="origin" name="origin" maxlength="60" placeholder="مثال: الصين" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="warranty">الضمان</label>
+            <select id="warranty" name="warranty">
+              <option value="" selected>بدون ضمان</option>
+              <option value="1_month">شهر واحد</option>
+              <option value="3_months">3 أشهر</option>
+              <option value="6_months">6 أشهر</option>
+              <option value="1_year">سنة</option>
+              <option value="2_years">سنتان أو أكثر</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field col-span">
+            <label>خصائص إضافية</label>
+            <div id="attrs"></div>
+            <button type="button" class="btn-ghost" id="addAttr" style="align-self:flex-start">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              إضافة خاصية
+            </button>
+            <p class="hint">مثال: المادة ← جلد طبيعي · السعة ← 500 مل · البطارية ← 48 ساعة.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5 · الشحن ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">5</span>
+          <div>
+            <h2>الشحن والتوصيل</h2>
+            <p>بيانات تساعد على حساب تكلفة الشحن وعرضها للمشتري</p>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="weight">الوزن (كجم)</label>
+            <input type="number" id="weight" name="weight" min="0" step="0.01"
+                   inputmode="decimal" placeholder="0.00" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="dim_l">الطول (سم)</label>
+            <input type="number" id="dim_l" name="dim_l" min="0" step="0.1"
+                   inputmode="decimal" placeholder="0" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="dim_w">العرض (سم)</label>
+            <input type="number" id="dim_w" name="dim_w" min="0" step="0.1"
+                   inputmode="decimal" placeholder="0" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="dim_h">الارتفاع (سم)</label>
+            <input type="number" id="dim_h" name="dim_h" min="0" step="0.1"
+                   inputmode="decimal" placeholder="0" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="shipping_cost">تكلفة الشحن</label>
+            <input type="number" id="shipping_cost" name="shipping_cost" min="0" step="0.01"
+                   inputmode="decimal" placeholder="0 = شحن مجاني" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="delivery_time">مدة التوصيل</label>
+            <input type="text" id="delivery_time" name="delivery_time" maxlength="60"
+                   placeholder="مثال: 2 — 4 أيام عمل" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="ships_from">يُشحن من</label>
+            <input type="text" id="ships_from" name="ships_from" maxlength="60"
+                   placeholder="مثال: القاهرة" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field col-span">
+            <label for="return_policy">سياسة الاسترجاع</label>
+            <select id="return_policy" name="return_policy">
+              <option value="" selected>غير محددة</option>
+              <option value="14_days">إرجاع خلال 14 يوماً</option>
+              <option value="30_days">إرجاع خلال 30 يوماً</option>
+              <option value="no_return">لا يوجد إرجاع</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6 · التواصل ========== -->
+      <section class="card">
+        <div class="card-head">
+          <span class="card-step">6</span>
+          <div>
+            <h2>معلومات التواصل</h2>
+            <p>لن تظهر للعامة إلا عند فتح صفحة المنتج</p>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="contact_name">اسم المسؤول <span class="req">*</span></label>
+            <input type="text" id="contact_name" name="contact_name" maxlength="60" required
+                   placeholder="الاسم الكامل" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="contact_phone">رقم الهاتف <span class="req">*</span></label>
+            <input type="tel" id="contact_phone" name="contact_phone" maxlength="20" required
+                   inputmode="tel" placeholder="+20 1XX XXX XXXX" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="whatsapp">رقم واتساب</label>
+            <input type="tel" id="whatsapp" name="whatsapp" maxlength="20"
+                   inputmode="tel" placeholder="اختياري" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="contact_email">البريد الإلكتروني <span class="req">*</span></label>
+            <input type="email" id="contact_email" name="contact_email" maxlength="120" required
+                   inputmode="email" placeholder="name@example.com" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="city">المحافظة / المدينة <span class="req">*</span></label>
+            <input type="text" id="city" name="city" maxlength="60" required
+                   placeholder="مثال: الجيزة" />
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field">
+            <label for="preferred_contact">وسيلة التواصل المفضلة <span class="req">*</span></label>
+            <select id="preferred_contact" name="preferred_contact" required>
+              <option value="" selected disabled>اختر وسيلة</option>
+              <option value="phone">الهاتف</option>
+              <option value="whatsapp">واتساب</option>
+              <option value="email">البريد الإلكتروني</option>
+            </select>
+            <p class="msg" hidden></p>
+          </div>
+
+          <div class="field col-span">
+            <label for="address">العنوان التفصيلي</label>
+            <input type="text" id="address" name="address" maxlength="160"
+                   placeholder="الشارع، رقم المبنى، علامة مميزة" />
+            <p class="hint">يُستخدم لتقدير الشحن فقط ولا يظهر للمشتري.</p>
+            <p class="msg" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== الإرسال ========== -->
+      <div class="submit-area">
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" id="terms" required
+                   data-msg="يجب الموافقة على الشروط للمتابعة" />
+            <span>
+              أوافق على <a href="#">شروط النشر</a> و<a href="#">سياسة المحتوى</a>،
+              وأتعهد بصحة جميع البيانات والصور المرفقة وبملكيتي لها.
+            </span>
+          </label>
+          <p class="msg" hidden></p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span class="btn-label" id="submitLabel">نشر المنتج</span>
+        </button>
+
+        <p class="notice error" id="errorBox" role="alert" aria-live="polite" hidden></p>
+        <p class="notice success" id="successBox" role="status" aria-live="polite" hidden></p>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="signoff">— وجودكم معنا هو كل شيء، نتمنى أن تستمتعوا دائماً —</p>
+      <p class="credit">© 2025 Hoscribe · هوسكرايب — كريم محمد إسماعيل</p>
+    </footer>
+
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    /* ======== عدّل هنا فقط ======== */
+    const SUPABASE_URL      = 'https://cbnpuovgauozhgspgqlz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNibnB1b3ZnYXVvemhnc3BncWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMDA4MTcsImV4cCI6MjEwODY3NjgxN30.proBbLxsY2irQ_wbHIdv9v1mIR9V8GprrwcaRhRFCNs';
+    /* =============================== */
+
+    /* =================================================================
+       إعداد Supabase (مرة واحدة من لوحة التحكم)
+
+       1) Storage → أنشئ bucket عام (Public) باسم:  product-images
+
+       2) SQL Editor → أنشئ الجدول:
+
+          create table if not exists public.products (
+            id                 uuid primary key default gen_random_uuid(),
+            created_at         timestamptz not null default now(),
+            user_id            uuid not null references auth.users(id) on delete cascade,
+            title              text not null,
+            category           text not null,
+            subcategory        text,
+            condition          text,
+            brand              text,
+            description        text not null,
+            price              numeric(12,2) not null,
+            compare_price      numeric(12,2),
+            currency           text default 'EGP',
+            stock              integer default 0,
+            sku                text,
+            min_order          integer default 1,
+            colors             text,
+            sizes              text,
+            origin_country     text,
+            warranty           text,
+            attributes         jsonb default '[]'::jsonb,
+            weight             numeric(10,2),
+            dim_length         numeric(10,2),
+            dim_width          numeric(10,2),
+            dim_height         numeric(10,2),
+            shipping_cost      numeric(12,2),
+            delivery_time      text,
+            ships_from         text,
+            return_policy      text,
+            contact_name       text,
+            contact_phone      text,
+            whatsapp           text,
+            contact_email      text,
+            city               text,
+            address            text,
+            preferred_contact  text,
+            images             jsonb default '[]'::jsonb,
+            cover_url          text,
+            status             text default 'pending'
+          );
+
+          alter table public.products enable row level security;
+
+          create policy "insert own products"
+            on public.products for insert
+            to authenticated
+            with check (auth.uid() = user_id);
+
+          create policy "read published products"
+            on public.products for select
+            using (status = 'published' or auth.uid() = user_id);
+
+          create policy "update own products"
+            on public.products for update
+            to authenticated
+            using (auth.uid() = user_id);
+       ================================================================= */
+
+    const BUCKET       = 'product-images';
+    const MAX_IMAGES   = 8;
+    const MAX_FILE_MB  = 2;
+    const MAX_FILE_SIZE = MAX_FILE_MB * 1024 * 1024;
+    const MAX_DIMENSION = 1600;   // أقصى بُعد بعد الضغط
+    const JPEG_QUALITY  = 0.82;
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+    });
+
+    /* ---------- عناصر ---------- */
+    const loader       = document.getElementById('bootLoader');
+    const form         = document.getElementById('productForm');
+    const dropzone     = document.getElementById('dropzone');
+    const imageInput   = document.getElementById('imageInput');
+    const thumbs       = document.getElementById('thumbs');
+    const imagesError  = document.getElementById('imagesError');
+    const attrsWrap    = document.getElementById('attrs');
+    const addAttrBtn   = document.getElementById('addAttr');
+    const submitBtn    = document.getElementById('submitBtn');
+    const submitLabel  = document.getElementById('submitLabel');
+    const errorBox     = document.getElementById('errorBox');
+    const successBox   = document.getElementById('successBox');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const descCount    = document.getElementById('descCount');
+    const avatarImg    = document.getElementById('avatarImg');
+    const userIcon     = document.getElementById('userIcon');
+
+    let currentUser = null;
+    let busy = false;
+    let images = [];              // { id, file, url }
+    const objectUrls = new Set(); // للتنظيف
+
+    const uid = () => (crypto.randomUUID
+      ? crypto.randomUUID()
+      : Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+
+    /* ---------- UI ---------- */
+    function showPage() {
+      document.body.classList.add('ready');
+      loader.classList.add('hide');
+      setTimeout(() => loader.remove(), 400);
+    }
+
+    function showError(msg) {
+      successBox.hidden = true;
+      errorBox.textContent = msg;
+      errorBox.hidden = false;
+      errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function clearError() {
+      errorBox.hidden = true;
+      errorBox.textContent = '';
+    }
+    function showSuccess(msg) {
+      clearError();
+      successBox.textContent = msg;
+      successBox.hidden = false;
+      successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function paintAvatar(user) {
+      const url = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+      if (!url) return;
+      avatarImg.src = url;
+      avatarImg.hidden = false;
+      userIcon.style.display = 'none';
+    }
+
+    /* ---------- الصور ---------- */
+    function showImagesError(msg) {
+      imagesError.textContent = msg;
+      imagesError.hidden = false;
+    }
+    function clearImagesError() {
+      imagesError.hidden = true;
+      imagesError.textContent = '';
+    }
+
+    function addFiles(fileList) {
+      clearImagesError();
+      const files = [...fileList];
+
+      for (const file of files) {
+        if (images.length >= MAX_IMAGES) {
+          showImagesError(`الحد الأقصى ${MAX_IMAGES} صور لكل منتج.`);
+          break;
+        }
+        if (!file.type.startsWith('image/')) {
+          showImagesError(`تم تجاهل "${file.name}" — الملف ليس صورة.`);
+          continue;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          const mb = (file.size / 1024 / 1024).toFixed(1);
+          showImagesError(`"${file.name}" حجمها ${mb} ميجابايت — الحد الأقصى ${MAX_FILE_MB} ميجابايت.`);
+          continue;
+        }
+
+        const url = URL.createObjectURL(file);
+        objectUrls.add(url);
+        images.push({ id: uid(), file, url });
+      }
+
+      renderThumbs();
+      updateProgress();
+    }
+
+    function removeImage(id) {
+      const idx = images.findIndex(i => i.id === id);
+      if (idx === -1) return;
+      URL.revokeObjectURL(images[idx].url);
+      objectUrls.delete(images[idx].url);
+      images.splice(idx, 1);
+      renderThumbs();
+      updateProgress();
+    }
+
+    function renderThumbs() {
+      thumbs.innerHTML = '';
+      thumbs.hidden = images.length === 0;
+
+      images.forEach((item, index) => {
+        const box = document.createElement('div');
+        box.className = 'thumb';
+
+        const img = document.createElement('img');
+        img.src = item.url;
+        img.alt = `صورة المنتج ${index + 1}`;
+        img.loading = 'lazy';
+
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'rm';
+        rm.setAttribute('aria-label', `حذف الصورة ${index + 1}`);
+        rm.textContent = '✕';
+        rm.addEventListener('click', () => removeImage(item.id));
+
+        box.append(img, rm);
+
+        if (index === 0) {
+          const badge = document.createElement('span');
+          badge.className = 'cover';
+          badge.textContent = 'الغلاف';
+          box.appendChild(badge);
+        }
+
+        thumbs.appendChild(box);
+      });
+    }
+
+    imageInput.addEventListener('change', (e) => {
+      addFiles(e.target.files);
+      e.target.value = '';
+    });
+
+    ['dragenter', 'dragover'].forEach(ev =>
+      dropzone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('drag');
+      })
+    );
+    ['dragleave', 'drop', 'dragend'].forEach(ev =>
+      dropzone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('drag');
+      })
+    );
+    dropzone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer?.files;
+      if (files?.length) addFiles(files);
+    });
+
+    /* ---------- ضغط الصور قبل الرفع ---------- */
+    function compressImage(file, maxDim = MAX_DIMENSION, quality = JPEG_QUALITY) {
+      // GIF و SVG: نرفعها كما هي حفاظاً على الحركة/الشفافية
+      if (file.type === 'image/gif' || file.type === 'image/svg+xml') {
+        return Promise.resolve(file);
+      }
+
+      return new Promise((resolve) => {
+        const objectUrl = URL.createObjectURL(file);
+        const img = new Image();
+
+        img.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          try {
+            const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+            const w = Math.max(1, Math.round(img.width * scale));
+            const h = Math.max(1, Math.round(img.height * scale));
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';           // خلفية بيضاء للصور الشفافة
+            ctx.fillRect(0, 0, w, h);
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, 0, 0, w, h);
+
+            canvas.toBlob((blob) => {
+              if (!blob) return resolve(file);
+              const name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+              resolve(new File([blob], name, { type: 'image/jpeg' }));
+            }, 'image/jpeg', quality);
+          } catch {
+            resolve(file);
+          }
+        };
+
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve(file);
+        };
+
+        img.src = objectUrl;
+      });
+    }
+
+    /* ---------- الخصائص الإضافية ---------- */
+    function addAttrRow(key = '', value = '') {
+      const row = document.createElement('div');
+      row.className = 'attr-row';
+      row.innerHTML = `
+        <input type="text" class="a-key" maxlength="40" placeholder="الخاصية (مثال: المادة)" />
+        <input type="text" class="a-val" maxlength="80" placeholder="القيمة (مثال: جلد طبيعي)" />
+        <button type="button" class="attr-rm" aria-label="حذف الخاصية">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      `;
+      row.querySelector('.a-key').value = key;
+      row.querySelector('.a-val').value = value;
+      row.querySelector('.attr-rm').addEventListener('click', () => row.remove());
+      attrsWrap.appendChild(row);
+    }
+
+    addAttrBtn.addEventListener('click', () => {
+      if (attrsWrap.children.length >= 12) return;
+      addAttrRow();
+      const last = attrsWrap.lastElementChild.querySelector('.a-key');
+      last?.focus();
+    });
+
+    /* ---------- شريط التقدّم ---------- */
+    const requiredEls = [...form.querySelectorAll('[required]')];
+
+    function updateProgress() {
+      let done = 0;
+      const total = requiredEls.length + 1; // +1 للصور
+
+      requiredEls.forEach(el => {
+        if (el.type === 'checkbox') {
+          if (el.checked) done++;
+        } else if (String(el.value ?? '').trim()) {
+          done++;
+        }
+      });
+      if (images.length) done++;
+
+      const pct = Math.round((done / total) * 100);
+      progressFill.style.width = pct + '%';
+      progressText.textContent = pct + '%';
+    }
+
+    form.addEventListener('input', (e) => {
+      const field = e.target.closest('.field');
+      if (field) {
+        field.classList.remove('invalid');
+        const msg = field.querySelector('.msg');
+        if (msg) msg.hidden = true;
+      }
+      updateProgress();
+    });
+
+    form.addEventListener('change', updateProgress);
+
+    document.getElementById('description').addEventListener('input', (e) => {
+      descCount.textContent = e.target.value.length;
+    });
+
+    /* ---------- التحقق ---------- */
+    function validate() {
+      let ok = true;
+      let firstBad = null;
+
+      // تصفير الحالة
+      form.querySelectorAll('.field').forEach(f => {
+        f.classList.remove('invalid');
+        const m = f.querySelector('.msg');
+        if (m) m.hidden = true;
+      });
+      clearImagesError();
+      clearError();
+
+      const mark = (field, msg) => {
+        ok = false;
+        field.classList.add('invalid');
+        const m = field.querySelector('.msg');
+        if (m) {
+          m.textContent = msg;
+          m.hidden = false;
+        }
+        if (!firstBad) firstBad = field;
+      };
+
+      form.querySelectorAll('.field [required]').forEach(el => {
+        const field = el.closest('.field');
+        if (!field) return;
+
+        if (el.type === 'checkbox') {
+          if (!el.checked) mark(field, el.dataset.msg || 'يجب الموافقة للمتابعة');
+          return;
+        }
+
+        const value = String(el.value ?? '').trim();
+        if (!value) {
+          mark(field, el.dataset.msg || 'هذا الحقل مطلوب');
+          return;
+        }
+
+        if (el.type === 'number') {
+          const num = Number(value);
+          if (Number.isNaN(num)) return mark(field, 'أدخل رقماً صحيحاً');
+          if (el.min !== '' && num < Number(el.min)) {
+            return mark(field, `القيمة يجب ألا تقل عن ${el.min}`);
+          }
+          if (el.id === 'price' && num <= 0) {
+            return mark(field, 'أدخل سعراً أكبر من صفر');
+          }
+        }
+
+        if (el.type === 'tel' && !/^[+\d][\d\s\-()]{6,}$/.test(value)) {
+          return mark(field, 'أدخل رقم هاتف صحيحاً');
+        }
+
+        if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
+          return mark(field, 'أدخل بريداً إلكترونياً صحيحاً');
+        }
+      });
+
+      // الصور
+      if (images.length === 0) {
+        ok = false;
+        showImagesError('أضف صورة واحدة على الأقل للمنتج.');
+        if (!firstBad) firstBad = dropzone;
+      }
+
+      // الخصم يجب أن يكون أكبر من السعر
+      const price = Number(document.getElementById('price').value || 0);
+      const compare = Number(document.getElementById('compare_price').value || 0);
+      if (compare > 0 && compare <= price) {
+        ok = false;
+        const field = document.getElementById('compare_price').closest('.field');
+        mark(field, 'السعر قبل الخصم يجب أن يكون أكبر من السعر الحالي');
+        if (!firstBad) firstBad = field;
+      }
+
+      if (!ok && firstBad) {
+        firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const focusable = firstBad.querySelector('input:not([type=hidden]),select,textarea,button');
+        setTimeout(() => focusable?.focus({ preventScroll: true }), 350);
+      }
+
+      return ok;
+    }
+
+    /* ---------- تجهيز البيانات ---------- */
+    const val = (id) => document.getElementById(id).value.trim();
+    const numOrNull = (id) => {
+      const v = val(id);
+      if (v === '') return null;
+      const n = Number(v);
+      return Number.isNaN(n) ? null : n;
+    };
+
+    function collectAttributes() {
+      return [...attrsWrap.querySelectorAll('.attr-row')]
+        .map(row => {
+          const key = row.querySelector('.a-key').value.trim();
+          const value = row.querySelector('.a-val').value.trim();
+          return key && value ? { key, value } : null;
+        })
+        .filter(Boolean);
+    }
+
+    function setBusy(state, label) {
+      busy = state;
+      submitBtn.disabled = state;
+      submitBtn.classList.toggle('loading', state);
+      submitLabel.textContent = label || (state ? 'جارٍ الإرسال…' : 'نشر المنتج');
+      updateProgress();
+    }
+
+    /* ---------- الإرسال ---------- */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (busy) return;
+
+      if (!validate()) return;
+
+      if (!currentUser) {
+        showError('انتهت الجلسة، سيتم تحويلك لتسجيل الدخول…');
+        setTimeout(() => location.replace('register.html'), 1400);
+        return;
+      }
+
+      setBusy(true, 'جارٍ تجهيز الصور…');
+
+      try {
+        /* 1) ضغط + رفع الصور */
+        const uploadedUrls = [];
+
+        for (let i = 0; i < images.length; i++) {
+          submitLabel.textContent = `جارٍ رفع الصور ${i + 1}/${images.length}`;
+
+          const optimized = await compressImage(images[i].file);
+          const path = `${currentUser.id}/${Date.now()}-${i}-${uid()}.jpg`;
+
+          const { error: upErr } = await supabase.storage
+            .from(BUCKET)
+            .upload(path, optimized, {
+              contentType: optimized.type || 'image/jpeg',
+              cacheControl: '31536000',
+              upsert: false
+            });
+
+          if (upErr) {
+            if (/bucket/i.test(upErr.message)) {
+              throw new Error('مساحة التخزين "product-images" غير موجودة. راجع إعدادات Supabase.');
+            }
+            throw upErr;
+          }
+
+          const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path);
+          uploadedUrls.push(pub.publicUrl);
+
+          progressFill.style.width = `${Math.round(((i + 1) / images.length) * 100)}%`;
+        }
+
+        /* 2) إدخال صف المنتج */
+        submitLabel.textContent = 'جارٍ حفظ بيانات المنتج…';
+
+        const payload = {
+          user_id: currentUser.id,
+          title: val('title'),
+          category: val('category'),
+          subcategory: val('subcategory') || null,
+          condition: val('condition') || null,
+          brand: val('brand') || null,
+          description: val('description'),
+          price: numOrNull('price'),
+          compare_price: numOrNull('compare_price'),
+          currency: val('currency') || 'EGP',
+          stock: numOrNull('stock') ?? 0,
+          sku: val('sku') || null,
+          min_order: numOrNull('min_order') ?? 1,
+          colors: val('colors') || null,
+          sizes: val('sizes') || null,
+          origin_country: val('origin') || null,
+          warranty: val('warranty') || null,
+          attributes: collectAttributes(),
+          weight: numOrNull('weight'),
+          dim_length: numOrNull('dim_l'),
+          dim_width: numOrNull('dim_w'),
+          dim_height: numOrNull('dim_h'),
+          shipping_cost: numOrNull('shipping_cost'),
+          delivery_time: val('delivery_time') || null,
+          ships_from: val('ships_from') || null,
+          return_policy: val('return_policy') || null,
+          contact_name: val('contact_name'),
+          contact_phone: val('contact_phone'),
+          whatsapp: val('whatsapp') || null,
+          contact_email: val('contact_email'),
+          city: val('city'),
+          address: val('address') || null,
+          preferred_contact: val('preferred_contact'),
+          images: uploadedUrls,
+          cover_url: uploadedUrls[0] || null,
+          status: 'pending'
+        };
+
+        const { error: dbError } = await supabase.from('products').insert(payload);
+        if (dbError) throw dbError;
+
+        /* 3) النجاح */
+        setBusy(false);
+        showSuccess('تم إرسال المنتج بنجاح ✓ — سيتم تحويلك إلى المتجر.');
+        submitLabel.textContent = 'تم الإرسال ✓';
+
+        setTimeout(() => location.replace('index.html'), 1800);
+
+      } catch (err) {
+        console.error(err);
+        setBusy(false);
+        showError('تعذّر إرسال المنتج: ' + (err?.message || 'حاول مرة أخرى.'));
+      }
+    });
+
+    /* ---------- تنظيف الروابط عند الإغلاق ---------- */
+    window.addEventListener('beforeunload', () => {
+      objectUrls.forEach(u => URL.revokeObjectURL(u));
+    });
+
+    /* ---------- التحقق من الجلسة ---------- */
+    (async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error || !session) {
+          location.replace('register.html');
+          return;
+        }
+
+        currentUser = session.user;
+        paintAvatar(session.user);
+
+        // تعبئة مبدئية لبيانات التواصل من الحساب
+        const meta = session.user.user_metadata || {};
+        const nameEl  = document.getElementById('contact_name');
+        const emailEl = document.getElementById('contact_email');
+        if (!nameEl.value)  nameEl.value  = meta.full_name || meta.name || '';
+        if (!emailEl.value) emailEl.value = session.user.email || '';
+
+        updateProgress();
+        showPage();
+
+        supabase.auth.onAuthStateChange((event, s) => {
+          if (event === 'SIGNED_OUT' || !s) location.replace('register.html');
+        });
+
+      } catch (err) {
+        console.error(err);
+        location.replace('register.html');
+      }
+    })();
+  </script>
+
+</body>
+</html>
